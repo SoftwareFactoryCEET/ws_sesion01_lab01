@@ -29,15 +29,20 @@ namespace GUIWpfApp
         {
             try
             {
-                if (RadioButtonArea.IsChecked == true)
+                if (!double.TryParse(TexBoxRadio.Text, out double radio) || radio < 0)
                 {
-                    circunferencia.SetRadio(Convert.ToDouble(TexBoxRadio.Text));
-                    LabelResultado.Content = $"El área de la circunferencia es: {circunferencia.Area()} m^2";
+                    LabelResultado.Content = "Ingrese un valor numérico mayor o igual a cero.";
+                    return;
+                }
 
+                circunferencia.SetRadio(radio);
+
+                if (RadioButtonArea.IsChecked == true)
+                {                    
+                    LabelResultado.Content = $"El área de la circunferencia es: {circunferencia.Area()} m^2";
                 }
                 else if (RadioButtonPerimetro.IsChecked == true)
-                {
-                    circunferencia.SetRadio(Convert.ToDouble(TexBoxRadio.Text));
+                {                    
                     LabelResultado.Content = $"El peímetro de la circunferencia es: {circunferencia.Perimetro()} m";
                 }
                 else
@@ -49,17 +54,13 @@ namespace GUIWpfApp
             {
 
                 LabelResultado.Content = aex.Message;
-            }
-
-
-           
+            }           
         }
 
         private void TexBoxRadio_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Permitir solo dígitos y punto decimal
             e.Handled = !Regex.IsMatch(e.Text, @"^[0-9\.]+$");
-
         }
     }
 }
