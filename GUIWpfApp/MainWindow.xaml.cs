@@ -1,5 +1,6 @@
 ﻿using Models;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -52,6 +53,13 @@ namespace GUIWpfApp
 
 
            
+        }
+
+        private void TexBoxRadio_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Permitir solo dígitos y punto decimal
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9\.]+$");
+
         }
     }
 }
